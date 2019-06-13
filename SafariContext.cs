@@ -19,7 +19,7 @@ namespace OnSafari
     {
       if (!optionsBuilder.IsConfigured)
       {
-
+        optionsBuilder.UseNpgsql("server=localhost;database=Safari;User Id=postgres;Password=postgres");
       }
     }
 
@@ -27,5 +27,6 @@ namespace OnSafari
     {
       modelBuilder.HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
     }
+    public DbSet<SeenAnimals> Animals { get; set; }
   }
 }

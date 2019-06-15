@@ -41,23 +41,39 @@ namespace OnSafari
           Console.WriteLine($"{animal.Species} was seen {animal.CountOfTimesSeen} times in {animal.LocationOfLastSeen}");
         }
       }
+      // Update the CountOfTimesSeen and LocationOfLastSeen for an animal
+      // Console.WriteLine("Do you want to update the (count) or (location) of animals on your log");
+      // input = Console.ReadLine();
+      // if (input.ToLower() == "count")
+      // {
+      //   // expected input is species, count
+      //   Console.WriteLine("Which species do you want to update, and by how much");
+      //   input = Console.ReadLine();
+      //   var info = input.Split(",");
+
+      //   var changedCount = db.Animals.FirstOrDefault(f => f.Species == input);
+
+
+
+      // }
+
+
+
+
       // remove all animals from "desert"
       Console.WriteLine("Do you want to remove animals from your log");
       input = Console.ReadLine();
       if (input.ToLower() == "yes")
       {
         Console.WriteLine("Do you want to remove animals from the (jungle), the (desert), the (river), the (forest), the (moor) or the (frozen tundra)");
-        input = Console.ReadLine();
-        Console.WriteLine($"{input}");
-
-        var removeALL = db.Animals.Where(animal => animal.LocationOfLastSeen == "desert");
-        if (removeALL != null)
-        {
-          db.Animals.RemoveRange(removeALL);
-          db.SaveChanges();
-          Console.WriteLine("Removed from Journal");
-        }
+        var removePlace = Console.ReadLine();
+        var removeALL = db.Animals.Where(w => w.LocationOfLastSeen == removePlace);
+        db.Animals.RemoveRange(removeALL);
+        db.SaveChanges();
+        Console.WriteLine($"Removed {removePlace} from Journal");
       }
+
+
       // add all Count to get total animals seen
 
       // get count of "lions", "tigers", and "bears"
@@ -65,17 +81,8 @@ namespace OnSafari
       // input = Console.ReadLine();
       // var ohMy = db.Animals.Select(s => s.Species = "lion");
 
-      // this counts the incidences of whatever
-      var lions = db.Animals.Count(w => w.Species == "lion");
-      Console.WriteLine($"There are {lions} lions");
 
-      // foreach (var w in lions)
-      // {
-      //   Console.WriteLine(w.Species);
-      //   db.Animals.RemoveRange(lions);
-      //   db.SaveChanges();
-      //   Console.WriteLine($"Removed {w.Species} from Journal");
-      // }
+
 
 
     }

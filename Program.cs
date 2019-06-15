@@ -71,9 +71,6 @@ namespace OnSafari
         Console.WriteLine($"You updated {info[0]} to seen in the {changedLocation.LocationOfLastSeen}");
       }
 
-
-
-
       // remove all animals from "desert"
       Console.WriteLine("Do you want to remove animals from your log");
       input = Console.ReadLine();
@@ -87,18 +84,27 @@ namespace OnSafari
         Console.WriteLine($"Removed {removePlace} from Journal");
       }
 
-
       // add all Count to get total animals seen
+      Console.WriteLine("Do you remember how many animals you've seen?");
+      input = Console.ReadLine();
+      if (input.ToLower() == "no")
+      {
+        var totalCount = db.Animals.Select(s => s.Species);
+        foreach (var s in totalCount)
+        {
+          Console.WriteLine($"You have seen {totalCount} animals");
+          // var accum = 0;
+          // accum = s.CountOfTimesSeen += accum;
+        }
+        // var totalCount = db.Animals.Aggregate(0, (total, SeenAnimals) => SeenAnimals.CountOfTimesSeen + total);
+      }
+
+
 
       // get count of "lions", "tigers", and "bears"
       // Console.WriteLine("Would you like a (count) of all the lions, tigers, and bears?");
       // input = Console.ReadLine();
       // var ohMy = db.Animals.Select(s => s.Species = "lion");
-
-
-
-
-
     }
   }
 }

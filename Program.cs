@@ -17,7 +17,7 @@ namespace OnSafari
         if (input.ToLower() != "quit")
         {
           // input expected is animal species, count, location
-          var data = input.Split(',');
+          var data = input.Split(", ");
           var newAnimal = new SeenAnimals
           {
             Species = data[0],
@@ -29,33 +29,47 @@ namespace OnSafari
           Console.WriteLine($"Saved {newAnimal.Species} to Safari Journal");
         }
       }
-      // Update Count and Last Seen
-      Console.WriteLine("Do you want to see (all) your animals?");
+
+      Console.WriteLine("Do you want to see all the animals in the (jungle) or the (forest)?");
       // display all animals in "jungle"
       input = Console.ReadLine();
-      if (input.ToLower() == "all")
+
+      var allAnimals = db.Animals.Where(o => o.LocationOfLastSeen == input);
+      foreach (var animal in allAnimals)
       {
-        var allAnimals = db.Animals.OrderBy(o => o.Species);
-        foreach (var animal in allAnimals)
-        {
-          Console.WriteLine($"{animal.Species} was seen {animal.CountOfTimesSeen} times in {animal.LocationOfLastSeen}");
-        }
+        Console.WriteLine($"{animal.Species} was seen in {animal.LocationOfLastSeen}");
       }
-      // Update the CountOfTimesSeen and LocationOfLastSeen for an animal
-      // Console.WriteLine("Do you want to update the (count) or (location) of animals on your log");
-      // input = Console.ReadLine();
-      // if (input.ToLower() == "count")
-      // {
-      //   // expected input is species, count
-      //   Console.WriteLine("Which species do you want to update, and by how much");
-      //   input = Console.ReadLine();
-      //   var info = input.Split(",");
-
-      //   var changedCount = db.Animals.FirstOrDefault(f => f.Species == input);
 
 
+      // Update Count and Last Seen
+      Console.WriteLine("Do you want to update the (count) or (location) of animals on your log");
+      input = Console.ReadLine();
+      if (input.ToLower() == "count")
+      {
+        // expected input is species, count
+        Console.WriteLine("Which species do you want to update, and by how much");
+        input = Console.ReadLine();
+        // split the input
+        var info = input.Split(", ");
+        //assign input[0] to name
+        //assign input[1] to count
+        var changedCount = db.Animals.FirstOrDefault(f => f.Species == info[0]);
+        changedCount.CountOfTimesSeen = changedCount.CountOfTimesSeen += int.Parse(info[1]);
+        db.SaveChanges();
+        Console.WriteLine($"You updated {info[0]} to {changedCount.CountOfTimesSeen} times");
 
-      // }
+      }
+      if (input.ToLower() == "location")
+      {
+        // expected input is species, location
+        Console.WriteLine("Which species do you want to update, and where");
+        input = Console.ReadLine();
+        var info = input.Split(", ");
+        var changedLocation = db.Animals.FirstOrDefault(f => f.Species == info[0]);
+        changedLocation.LocationOfLastSeen = info[1];
+        db.SaveChanges();
+        Console.WriteLine($"You updated {info[0]} to seen in the {changedLocation.LocationOfLastSeen}");
+      }
 
 
 

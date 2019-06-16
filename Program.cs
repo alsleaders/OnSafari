@@ -30,16 +30,25 @@ namespace OnSafari
         }
       }
 
-      Console.WriteLine("Do you want to see all the animals in the (jungle) or the (forest)?");
+      Console.WriteLine("Do you want to see (all) the animals in the (jungle) or the (forest)?");
       // display all animals in "jungle"
       input = Console.ReadLine();
-
-      var allAnimals = db.Animals.Where(o => o.LocationOfLastSeen == input);
-      foreach (var animal in allAnimals)
+      if (input.ToLower() != "all")
       {
-        Console.WriteLine($"{animal.Species} was seen in {animal.LocationOfLastSeen}");
+        var specificAnimals = db.Animals.Where(o => o.LocationOfLastSeen == input);
+        foreach (var animal in specificAnimals)
+        {
+          Console.WriteLine($"{animal.Species} was seen in {animal.LocationOfLastSeen}");
+        }
       }
-
+      else
+      {
+        var allAnimals = db.Animals.OrderBy(o => o.Species).ThenBy(o => o.LocationOfLastSeen);
+        foreach (var animal in allAnimals)
+        {
+          Console.WriteLine($"{animal.Species} was seen in {animal.LocationOfLastSeen}");
+        }
+      }
 
       // Update Count and Last Seen
       Console.WriteLine("Do you want to update the (count) or (location) of animals on your log");
@@ -72,7 +81,7 @@ namespace OnSafari
       }
 
       // remove all animals from "desert"
-      Console.WriteLine("Do you want to remove animals from your log");
+      Console.WriteLine("Do you want to remove animals from your log?");
       input = Console.ReadLine();
       if (input.ToLower() == "yes")
       {
@@ -93,18 +102,17 @@ namespace OnSafari
         Console.WriteLine($"You have seen {totalCount} animals");
       }
 
-
-      // var totalCount = db.Animals.Select(s => s.Species);
-      // foreach (var s in totalCount)
-      // {
-      //   var accum = 0;
-      //   accum = s.CountOfTimesSeen += accum;
-      // }
-
       // get count of "lions", "tigers", and "bears"
-      // Console.WriteLine("Would you like a (count) of all the lions, tigers, and bears?");
-      // input = Console.ReadLine();
-      // var ohMy = db.Animals.Select(s => s.Species = "lion");
+      Console.WriteLine("Would you like a count of all the lions, tigers, and bears? (Oh my)!");
+      input = Console.ReadLine();
+      if (input.ToLower() == "oh my")
+      {
+        var ohMyLions = db.Animals.Where(w => w.Species == "lion").Sum(s => s.CountOfTimesSeen);
+        var ohMyTigers = db.Animals.Where(w => w.Species == "tiger").Sum(s => s.CountOfTimesSeen);
+        var ohMyBears = db.Animals.Where(w => w.Species == "bear").Sum(s => s.CountOfTimesSeen);
+        Console.WriteLine($"You have seen {ohMyLions + ohMyTigers + ohMyBears} lions, tigers, and bears!");
+
+      }
     }
   }
 }

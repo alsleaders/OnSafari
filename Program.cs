@@ -89,17 +89,17 @@ namespace OnSafari
       input = Console.ReadLine();
       if (input.ToLower() == "no")
       {
-        var totalCount = db.Animals.Select(s => s.Species);
-        foreach (var s in totalCount)
-        {
-          Console.WriteLine($"You have seen {totalCount} animals");
-          // var accum = 0;
-          // accum = s.CountOfTimesSeen += accum;
-        }
-        // var totalCount = db.Animals.Aggregate(0, (total, SeenAnimals) => SeenAnimals.CountOfTimesSeen + total);
+        var totalCount = db.Animals.Sum(s => s.CountOfTimesSeen);
+        Console.WriteLine($"You have seen {totalCount} animals");
       }
 
 
+      // var totalCount = db.Animals.Select(s => s.Species);
+      // foreach (var s in totalCount)
+      // {
+      //   var accum = 0;
+      //   accum = s.CountOfTimesSeen += accum;
+      // }
 
       // get count of "lions", "tigers", and "bears"
       // Console.WriteLine("Would you like a (count) of all the lions, tigers, and bears?");

@@ -22,7 +22,7 @@ namespace OnSafari
           {
             Species = data[0],
             CountOfTimesSeen = int.Parse(data[1]),
-            LocationOfLastSeen = data[2]
+            LocationOfLastSeen = data[2].TrimEnd()
           };
           db.Animals.Add(newAnimal);
           db.SaveChanges();
